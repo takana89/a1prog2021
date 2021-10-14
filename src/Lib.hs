@@ -19,8 +19,6 @@ module Lib
     ( someFunc
     ) where
 
--- ## `doctest`のための記述と定義本体
--- テストは失敗するように書いてある
 
 {- | 
 「なんか関数」を標準出力に印字する
@@ -28,4 +26,4 @@ module Lib
 なんか関数
 -}
 someFunc :: IO ()
-someFunc = putStrLn "なんか函数"
+someFunc = putStrLn "なんか関数"
