@@ -1,5 +1,12 @@
-{-# LANGUAGE TypeApplications #-}
 module Ch01 where
+
+import Data.Char
+import Data.List ( inits, tails, transpose ) 
+import Data.Set (Set)
+import qualified Data.Set as Set
+import Text.Printf
+import System.Random.Shuffle
+import Control.Monad.Random  hiding (interleave)
 
 -- 00. "stressed" の逆順
 {- |
@@ -110,7 +117,7 @@ isNotCommaAndNotPeriod ',' = False
 isNotCommaAndNotPeriod '.' = False
 isNotCommaAndNotPeriod _   =  True
 
--- 元素記号
+-- 04 元素記号
 
 type Dict = [(Int, String)]
 
@@ -123,10 +130,100 @@ kigou :: String -> String
 kigou = undefined
 -}
 numbering :: [String] -> [(Int, String)]
-numbering = undefined
+numbering = zip [1 ..]
 
 kigou :: (Int, String) -> (Int, String)
-kigou = undefined
+kigou (i, str)
+    | i == 12       =(i, "Mg")
+    | i `elem` nums =(i, take 1 str)
+    | otherwise     =(i, take 2 str)
 
 text1 :: String
 text1 = "Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause Arthur King Can."
+
+nums :: [Int]
+nums = [1, 5, 6, 7, 8, 9, 15, 16, 19]
+
+-- 05 N-gram
+bigram ::[a] -> [(a,a)]
+bigram xs = zip xs (tail xs)
+
+text2 :: String
+text2 = "I am an NLPer"
+
+tangoBigram :: [(String, String)]
+tangoBigram = bigram (words text2)
+
+mojiBigram :: [(Char, Char)]
+mojiBigram = bigram text2
+
+-- (a, a) と (a, a, a) は別の型
+
+ngram :: Int -> [a] -> [[a]]
+ngram n xs = transpose (map inits (tails xs)) !! n
+
+-- 06 集合
+
+str1 :: String
+str1 = "paraparaparadise"
+str2 :: String
+str2 = "paragraph"
+
+xs :: [(Char, Char)]
+xs = bigram str1
+
+ys :: [(Char, Char)]
+ys = bigram str2
+
+_X :: Set (Char, Char)
+_X = Set.fromList xs
+
+_Y :: Set (Char, Char)
+_Y = Set.fromList ys
+
+waXY :: Set (Char, Char)
+waXY = Set.union _X _Y
+
+sekiXY :: Set (Char, Char)
+sekiXY = Set.intersection _X _Y
+
+saXY :: Set (Char, Char)
+saXY = Set.difference _X _Y
+
+-- 07. テンプレートによる文生成
+
+sentense :: Int -> String -> Double -> String
+sentense x y z = printf "%d時の%sは%f" x y z
+
+sentense' :: Int -> String -> Double -> String
+sentense' x y z = show x ++ "時の" ++ y ++ "は" ++ show z
+
+-- 08 暗号文
+
+cipher :: String -> String
+cipher = map encode
+
+encode :: Char -> Char
+encode c
+    | isAsciiLower c = chr (219 - ord c)
+    | otherwise      = c
+
+-- Typoglycemia
+
+sample2 :: String
+sample2 = "I couldn't believe that I could actually umderstand what I was reading : the phenomenal power of the human mind ."
+
+typoglycemia :: String -> String
+typoglycemia = unwords . map typo . words
+
+typo :: String -> String
+typo w
+    | len < 5 = w
+    | otherwise   = [h] ++ shuffle' ms len' (mkStdGen len') ++ [t]
+    where
+        len = length w
+        len' = len -2
+        h = head w
+        t = last w
+        ms = take len' (tail w)
+

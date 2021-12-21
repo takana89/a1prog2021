@@ -28,6 +28,9 @@ dependencies:
 - doctest
 - hspec
 - main-tester
+- containers
+- random-shuffle
+- MonadRandom
 
 library:
   source-dirs: src
