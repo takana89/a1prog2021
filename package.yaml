@@ -46,6 +46,12 @@ executables:
     dependencies:
     - a1prog2021
 
+  mywcl:
+    main:                Main.hs
+    source-dirs:         app/0200
+    dependencies:
+    - a1prog2021
+
 tests:
   # a1prog2021-test:
   #   main:                spec.hs
