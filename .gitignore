@@ -1,6 +1,6 @@
 .stack-work/
 a1prog2021.cabal
-*.log
+# *.log
 core
 *.hi
 *.o

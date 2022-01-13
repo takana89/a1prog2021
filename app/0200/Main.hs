@@ -1,6 +1,8 @@
 module Main where
 
-import Ch02 (mywcl)
+import System.Environment
+import Ch02 (wcl)
 
 main :: IO ()
-main = mywcl
+main = interact wcl
+-- main = putStr . wcl =<< readFile . head =<< getArgs
