@@ -5100,3 +5100,9 @@ Ok, modules loaded: Main.
 <time>2022-01-13T15:16:54</time>
 Leaving GHCi.
 <time>2022-01-13T15:16:54</time>
+GHCi, version 9.0.2: https://www.haskell.org/ghc/  :? for help
+Loaded GHCi configuration from /home/takana/a1prog2021/.ghci
+>>> 1 + 2
+3
+>>> :q
+Leaving GHCi.
